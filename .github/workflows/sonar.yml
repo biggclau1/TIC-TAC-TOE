@@ -38,3 +38,6 @@ jobs:
           docker push bigclau/tic-tac-toe:latest
         env: 
           DOCKER_CLI_ACI: 1
+
+      - name: Trivy image Scan
+        run: trivy image bigclau/tic-tac-toe:latest . > trivyimage.txt
