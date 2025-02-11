@@ -34,7 +34,7 @@ jobs:
           #Run commands to build and push Docker images
           docker build -t tic-tac-toe .
           docker tag tic-tac-toe bigclau/tic-tac-toe:latest
-          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_USERNAME }}
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
           docker push bigclau/tic-tac-toe:latest
         env: 
           DOCKER_CLI_ACI: 1
