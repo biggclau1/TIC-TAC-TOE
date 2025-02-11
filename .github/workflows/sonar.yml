@@ -41,3 +41,20 @@ jobs:
 
       - name: Trivy image Scan
         run: trivy image bigclau/tic-tac-toe:latest > trivyimage.txt
+
+
+  deploy:
+   needs: build-analyze-scan
+   runs-on: [self-hosted]
+   steps: 
+      - name: docker-pull image
+        run: docker pull bigclau/tic-tac-toe:latest
+
+        
+      - name: image scan
+        run: trivy image bigclau/tic-tac-toe:latest > trivyimage.txt
+
+      - name: Deploy to container
+        run: docker run -d --name game -p 3000:3000 bigclau/tic-tac-toe:latest
+      
+
