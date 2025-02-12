@@ -53,6 +53,9 @@ jobs:
         
       - name: image scan
         run: trivy image bigclau/tic-tac-toe:latest > trivyimage.txt
+        
+      - name: Deploy to container
+        run: docker run -d --name game -p 3000:3000 bigclau/tic-tac-toe:latest
 
       - name: update kubeconfig
         run: aws eks --region us-west-1 update-kubeconfig --name EKS_CLOUD
@@ -66,9 +69,9 @@ jobs:
         with:
           status: ${{ job.status }}
           steps: ${{ tojson(steps) }}
-          channel: '#github-actions-eks
+          channel: '#github-actions-eks'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-      - name: Deploy to container
-        run: docker run -d --name game -p 3000:3000 bigclau/tic-tac-toe:latest
       
 
